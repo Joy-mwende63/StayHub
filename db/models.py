@@ -59,3 +59,4 @@ class Hotel:
         if not self.reservations:
             return "No rooms have been reserved."
         return [str(room) for room in self.reservations]
+

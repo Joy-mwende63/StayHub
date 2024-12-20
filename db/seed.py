@@ -10,3 +10,5 @@ def seed_hotel():
     hotel.add_room(Room(103, "Suite", 4, 250))
 
     return hotel
+
+
