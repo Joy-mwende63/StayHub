@@ -1,6 +1,6 @@
-# cli.py
 from db.seed import seed_hotel
 from debug import log_error
+from datetime import datetime
 
 def run_cli():
     hotel = seed_hotel()
@@ -23,8 +23,22 @@ def run_cli():
         elif choice == "2":
             try:
                 room_id = int(input("Enter the room ID to reserve: "))
-                result = hotel.reserve_room(room_id)
-                print(result)
+                check_in_date = input("Enter check-in date (YYYY-MM-DD): ")
+                check_out_date = input("Enter check-out date (YYYY-MM-DD): ")
+
+                # Convert dates to datetime objects to ensure validity
+                try:
+                    check_in_date = datetime.strptime(check_in_date, "%Y-%m-%d")
+                    check_out_date = datetime.strptime(check_out_date, "%Y-%m-%d")
+
+                    if check_in_date >= check_out_date:
+                        print("Error: Check-out date must be after check-in date.")
+                    else:
+                        result = hotel.reserve_room(room_id, check_in_date, check_out_date)
+                        print(result)
+                except ValueError:
+                    print("Error: Please enter valid dates in the format YYYY-MM-DD.")
+
             except ValueError:
                 log_error("Invalid input: Room ID must be an integer.")
                 print("Error: Room ID must be a number.")
